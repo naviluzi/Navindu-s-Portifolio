@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Passion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+  <style>
+
+    /* ── Interest Grid ── */
+    .interest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2.4rem;
+    }
+
+    .interest-card {
+      background: var(--surface);
+      border: 1px solid var(--dim);
+      border-radius: 2rem;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      transition: border-color .35s, transform .35s, box-shadow .35s;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+    .interest-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s ease;
+      z-index: 1;
+    }
+    .interest-card:hover {
+      border-color: var(--border);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,.4);
+    }
+    .interest-card:hover::before { transform: scaleX(1); }
+
+    .ic-top { display: flex; align-items: center; gap: 1.8rem; }
+    .ic-icon {
+      width: 6rem; height: 6rem;
+      border-radius: 1.4rem;
+      background: var(--glow-soft);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem; color: var(--accent); flex-shrink: 0;
+      transition: transform .3s;
+    }
+    .interest-card:hover .ic-icon { transform: scale(1.12) rotate(-4deg); }
+    .ic-title { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -.02em; }
+    .ic-subtitle { font-size: 1.2rem; color: var(--accent); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; margin-top: .1rem; }
+    .ic-desc { font-size: 1.4rem; color: var(--muted); line-height: 1.85; }
+    .ic-tags { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: auto; }
+    .ic-tags span {
+      font-size: 1.1rem; padding: .4rem 1.1rem;
+      border-radius: 2rem; background: var(--dim); color: var(--muted);
+      border: 1px solid transparent; transition: border-color .3s, color .3s;
+    }
+    .ic-tags span:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── Hover Overlay ── */
+    .hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8,8,8,.96);
+      border-radius: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+      transition: opacity .35s ease, transform .35s ease;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      overflow-y: auto;
+    }
+    .interest-card:hover .hover-overlay {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .overlay-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .4rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-shrink: 0;
+    }
+    .overlay-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .overlay-item {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      padding: 1rem 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--dim);
+      border-radius: 1.1rem;
+      transition: border-color .3s, transform .3s, background .3s;
+      opacity: 0;
+      animation: none;
+    }
+    .interest-card:hover .overlay-item {
+      animation: slideIn .4s ease forwards;
+    }
+    .interest-card:hover .overlay-item:nth-child(2) { animation-delay: .04s; }
+    .interest-card:hover .overlay-item:nth-child(3) { animation-delay: .10s; }
+    .interest-card:hover .overlay-item:nth-child(4) { animation-delay: .16s; }
+    .interest-card:hover .overlay-item:nth-child(5) { animation-delay: .22s; }
+    .interest-card:hover .overlay-item:nth-child(6) { animation-delay: .28s; }
+    .interest-card:hover .overlay-item:nth-child(7) { animation-delay: .34s; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .overlay-item:hover {
+      border-color: var(--accent);
+      transform: translateX(5px);
+      background: rgba(192,57,43,.06);
+    }
+
+    .oi-icon {
+      width: 4.4rem; height: 4.4rem;
+      border-radius: .8rem;
+      background: var(--dim);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: var(--accent); flex-shrink: 0;
+    }
+    .oi-info { flex: 1; }
+    .oi-name { font-family: 'Syne', sans-serif; font-size: 1.45rem; font-weight: 700; margin-bottom: .15rem; }
+    .oi-sub  { font-size: 1.1rem; color: var(--muted); }
+    .oi-badge {
+      font-size: 1rem; padding: .3rem .9rem;
+      border-radius: 2rem;
+      background: var(--glow-soft);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── Fun Facts ── */
+    .fun-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.8rem;
+    }
+    .fun-fact {
+      background: var(--surface);
+      border: 1px solid var(--dim);
+      border-radius: 1.4rem;
+      padding: 2.4rem 2rem;
+      text-align: center;
+      transition: border-color .3s, transform .3s;
+      display: flex; flex-direction: column; gap: .8rem; align-items: center;
+    }
+    .fun-fact:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .fun-fact i { font-size: 2.4rem; color: var(--accent); }
+    .fun-fact strong { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--text); line-height: 1; }
+    .fun-fact span { font-size: 1.2rem; color: var(--muted); }
+
+    /* ── Currently Into ── */
+    .currently-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .currently-card {
+      background: var(--surface);
+      border: 1px solid var(--dim);
+      border-radius: 1.4rem;
+      padding: 2.2rem;
+      transition: border-color .3s, transform .3s;
+    }
+    .currently-card:hover { border-color: var(--border); transform: translateY(-3px); }
+    .cc-label {
+      font-size: 1.1rem; color: var(--accent);
+      letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem;
+    }
+    .cc-value { font-family: 'Syne', sans-serif; font-size: 1.7rem; font-weight: 700; margin-bottom: .4rem; }
+    .cc-sub { font-size: 1.2rem; color: var(--muted); }
+
+    /* Hover hint */
+    .hover-hint {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--muted);
+      opacity: .5;
+      margin-top: -.8rem;
+      margin-bottom: 1rem;
+      letter-spacing: .04em;
+    }
+    .hover-hint i { color: var(--accent); margin-right: .4rem; }
+
+    @media (max-width: 900px) {
+      .currently-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .currently-grid { grid-template-columns: 1fr; }
+      .interest-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="react-root"></div>
+
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="mydrive.html">My Drive</a>
+      <a href="interests.html" class="active">My Passion</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+
+    <div class="page-hero">
+      <p class="page-eyebrow">Beyond the code</p>
+      <h1 class="page-title">My <span class="red">Passion</span></h1>
+      <p class="page-subtitle">The things that fire me up, keep me going, and define who I am beyond the screen.</p>
+    </div>
+
+    <!-- Interest Cards -->
+    <section class="section-block">
+      <h2 class="section-heading">What Drives Me</h2>
+     
+      <div class="interest-grid">
+
+        <!-- ── Gaming ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-gamepad"></i></div>
+            <div>
+              <div class="ic-title">Gaming</div>
+              <div class="ic-subtitle">Action · Racing · Adventure</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            Gaming is where I escape, compete, and explore. Call of Duty keeps my reflexes sharp with its intense combat, Far Cry pulls me into stunning open worlds full of chaos and freedom, and Need for Speed fuels my love for speed and adrenaline. Every game is a different world to conquer.
+          <div class="ic-tags">
+            <span>Call of Duty</span><span>Far Cry</span><span>Need for Speed</span>
+            <span>FPS</span><span>Open World</span><span>Racing</span><span>AAA</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-gamepad"></i> My Games</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-crosshairs"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Call of Duty</p>
+                <p class="oi-sub">First Person Shooter</p>
+              </div>
+              <span class="oi-badge">FPS</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-mountain"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Far Cry</p>
+                <p class="oi-sub">Open World Adventure</p>
+              </div>
+              <span class="oi-badge">Open World</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-car-side"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Need for Speed</p>
+                <p class="oi-sub">Street Racing</p>
+              </div>
+              <span class="oi-badge">Racing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Guitar ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-guitar"></i></div>
+            <div>
+              <div class="ic-title">Guitar</div>
+              <div class="ic-subtitle">Acoustic &amp; Electric</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            Whether it's the warm resonance of an acoustic or the raw energy of an electric guitar, I love playing both. Linkin Park is a huge inspiration — their blend of rock, metal, and emotion pushes me to learn riffs that hit hard and feel real. Music through strings is a language of its own.
+          </p>
+          <div class="ic-tags">
+            <span>Acoustic</span><span>Electric</span><span>Linkin Park</span>
+            <span>Rock</span><span>Riffs</span><span>Covers</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-guitar"></i> My Style</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-guitar"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Acoustic Guitar</p>
+                <p class="oi-sub">Warm, natural tones</p>
+              </div>
+              <span class="oi-badge">Acoustic</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-bolt"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Electric Guitar</p>
+                <p class="oi-sub">Raw power & distortion</p>
+              </div>
+              <span class="oi-badge">Electric</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-star"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Tim Henson</p>
+                <p class="oi-sub">Biggest inspiration</p>
+              </div>
+              <span class="oi-badge">Rock</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Drumming ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-drum"></i></div>
+            <div>
+              <div class="ic-title">Drumming</div>
+              <div class="ic-subtitle">Rhythm &amp; Power</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            Drumming is pure rhythm and energy. Sitting behind a kit and locking into a groove is one of the most satisfying feelings — it's both physical and creative. The drums are the heartbeat of any band and I love being that driving force behind the music.
+          </p>
+          <div class="ic-tags">
+            <span>Kit Drums</span><span>Rhythm</span><span>Rock Beats</span>
+            <span>Groove</span><span>Percussion</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-drum"></i> My Kit</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-drum"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Kit Drums</p>
+                <p class="oi-sub">Full acoustic drum kit</p>
+              </div>
+              <span class="oi-badge">Main</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-music"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Rock Beats</p>
+                <p class="oi-sub">Heavy hitting grooves</p>
+              </div>
+              <span class="oi-badge">Style</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-fire"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Jamming</p>
+                <p class="oi-sub">Playing along to songs</p>
+              </div>
+              <span class="oi-badge">Fav</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Singing ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-microphone"></i></div>
+            <div>
+              <div class="ic-title">Singing</div>
+              <div class="ic-subtitle">Every genre, every mood</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            I sing across all genres — from soulful ballads to energetic rock anthems. Music is emotion and singing is the most direct way to express it. Whether it's humming along to a track or belting out a full song, singing is a daily part of my life that brings me joy.
+          </p>
+          <div class="ic-tags">
+            <span>All Genres</span><span>Rock</span><span>Pop</span>
+            <span>R&amp;B</span><span>Expression</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-microphone"></i> My Genres</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-guitar"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Rock</p>
+                <p class="oi-sub">Powerful & raw energy</p>
+              </div>
+              <span class="oi-badge">Fav</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-music"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Pop</p>
+                <p class="oi-sub">Catchy melodies</p>
+              </div>
+              <span class="oi-badge">Genre</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-heart"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">R&amp;B / Soul</p>
+                <p class="oi-sub">Emotion & feeling</p>
+              </div>
+              <span class="oi-badge">Genre</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-star"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Any Mood</p>
+                <p class="oi-sub">Whatever feels right</p>
+              </div>
+              <span class="oi-badge">Vibe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Technology ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div>
+              <div class="ic-title">Technology</div>
+              <div class="ic-subtitle">All areas, always learning</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            Technology is my playground. From building circuits with Arduino to exploring AI models, diving into cybersecurity, testing new gadgets, and writing software — I'm passionate about all of it. Tech evolves every day and I make sure I evolve with it.
+          </p>
+          <div class="ic-tags">
+            <span>Arduino</span><span>AI / ML</span><span>Cybersecurity</span>
+            <span>Gadgets</span><span>Software Dev</span><span>Open Source</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-microchip"></i> My Areas</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-robot"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">AI / Machine Learning</p>
+                <p class="oi-sub">Exploring new models</p>
+              </div>
+              <span class="oi-badge">AI</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Cybersecurity</p>
+                <p class="oi-sub">Ethical hacking & defence</p>
+              </div>
+              <span class="oi-badge">Security</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-microchip"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Arduino</p>
+                <p class="oi-sub">Hardware & circuits</p>
+              </div>
+              <span class="oi-badge">Hardware</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Gadgets</p>
+                <p class="oi-sub">Latest tech & devices</p>
+              </div>
+              <span class="oi-badge">Tech</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Movies & Anime ── -->
+        <div class="interest-card reveal">
+          <div class="ic-top">
+            <div class="ic-icon"><i class="fa-solid fa-tv"></i></div>
+            <div>
+              <div class="ic-title">Movies &amp; Anime</div>
+              <div class="ic-subtitle">Storytelling at its finest</div>
+            </div>
+          </div>
+          <p class="ic-desc">
+            Great stories inspire me. Stranger Things pulls me into a world of mystery and nostalgia, Game of Thrones kept me on the edge of my seat with every twist, and One Piece proves that a story about adventure and friendship can last a lifetime. Storytelling at this level is pure art.
+          </p>
+          <div class="ic-tags">
+            <span>One Piece</span><span>Naruto</span><span>Attack on Titan</span>
+            <span>Marvel</span><span>DC</span><span>Action</span><span>Sci-Fi</span><span>Action Adventure</span>
+          </div>
+          <div class="hover-overlay">
+            <p class="overlay-title"><i class="fa-solid fa-tv"></i> What I Watch</p>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-sailboat"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">One Piece</p>
+                <p class="oi-sub">Currently on the Grand Line</p>
+              </div>
+              <span class="oi-badge">Anime</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Naruto</p>
+                <p class="oi-sub">Believe it!</p>
+              </div>
+              <span class="oi-badge">Anime</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-skull-crossbones"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Stranger Things</p>
+                <p class="oi-sub">Hawkins was never the same</p>
+              </div>
+              <span class="oi-badge">Anime</span>
+            </div>
+            <div class="overlay-item">
+              <div class="oi-icon"><i class="fa-solid fa-mask"></i></div>
+              <div class="oi-info">
+                <p class="oi-name">Marvel &amp; DC</p>
+                <p class="oi-sub">Epic cinematic universe</p>
+              </div>
+              <span class="oi-badge">Movies</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Fun Facts -->
+    <section class="section-block">
+      <h2 class="section-heading">Quick Facts</h2>
+      <div class="fun-facts">
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-gamepad"></i>
+          <strong>1000<span class="red">+</span></strong>
+          <span>Hours of Gaming</span>
+        </div>
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-guitar"></i>
+          <strong>3<span class="red">+</span></strong>
+          <span>Years Playing Guitar</span>
+        </div>
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-drum"></i>
+          <strong>∞</strong>
+          <span>Beats Played</span>
+        </div>
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-tv"></i>
+          <strong>1000<span class="red">+</span></strong>
+          <span>Anime Episodes Watched</span>
+        </div>
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-microchip"></i>
+          <strong>40<span class="red">+</span></strong>
+          <span>Tech Projects Explored</span>
+        </div>
+        <div class="fun-fact reveal">
+          <i class="fa-solid fa-mug-hot"></i>
+          <strong>∞</strong>
+          <span>Cups of Tea / Coffee</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Currently Into -->
+    <section class="section-block">
+      <h2 class="section-heading">Currently Into</h2>
+      <div class="currently-grid">
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Playing</p>
+          <p class="cc-value">Call of Duty</p>
+          <p class="cc-sub">Multiplayer grind</p>
+        </div>
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Training</p>
+          <p class="cc-value">Karate</p>
+          <p class="cc-sub">Discipline &amp; strength</p>
+        </div>
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Watching</p>
+          <p class="cc-value">One Piece</p>
+          <p class="cc-sub">On the Grand Line</p>
+        </div>
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Exploring</p>
+          <p class="cc-value">Arduino Projects</p>
+          <p class="cc-sub">Hardware experiments</p>
+        </div>
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Watching</p>
+          <p class="cc-value">TV Series</p>
+          <p class="cc-sub">Always on to the next one</p>
+        </div>
+
+        <div class="currently-card reveal">
+          <p class="cc-label"><i class="fa-solid fa-circle" style="color:#4caf82;font-size:.7rem;"></i> Learning</p>
+          <p class="cc-value">AI &amp; Machine Learning</p>
+          <p class="cc-sub">Exploring new models</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="animations.js" defer></script>
+  <script src="shared.js" defer></script>
+
+</body>
+</html>

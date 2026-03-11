@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Education</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="react-root"></div>
+
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html" class="active">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="mydrive.html">My Drive</a>
+      <a href="interests.html">My Passion</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+
+    <div class="page-hero">
+      <p class="page-eyebrow">My journey</p>
+      <h1 class="page-title">My <span class="red">Education</span></h1>
+      <p class="page-subtitle">Academic background and qualifications that have shaped my path.</p>
+    </div>
+
+    <!-- Academic Timeline -->
+    <section class="section-block">
+      <h2 class="section-heading">Academic Timeline</h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="timeline-card">
+            <div class="tl-top">
+              <span class="tl-year">2023 — Present</span>
+              <span class="tl-badge">Current</span>
+            </div>
+            <h3 class="tl-title">Bachelor of Science in Cybersecurity</h3>
+            <p class="tl-place"><i class="fa-solid fa-building-columns"></i>Sri Lanka Institute of Information Technology(SLIIT)</p>
+            <p class="tl-desc">Studying network security, ethical hacking, cryptography, digital forensics, and secure software development.</p>
+            <div class="tl-tags">
+              <span>Network Security</span>
+              <span>Ethical Hacking</span>
+              <span>Cryptography</span>
+              <span>Digital Forensics</span>
+              <span>Secure Dev</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"><i class="fa-solid fa-school"></i></div>
+          <div class="timeline-card">
+            <div class="tl-top">
+              <span class="tl-year">A/L</span>
+            </div>
+            <h3 class="tl-title">Higher Secondary — A/L</h3>
+            <p class="tl-place"><i class="fa-solid fa-location-dot"></i> D.S. Senanayake College</p>
+            <p class="tl-desc">Completed Advanced Level examinations. Focused on ICT and Commerce stream subjects.</p>
+            <div class="tl-tags">
+              <span>ICT</span><span>Accounting</span><span>Economic</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"><i class="fa-solid fa-book"></i></div>
+          <div class="timeline-card">
+            <div class="tl-top">
+              <span class="tl-year">O/L</span>
+            </div>
+            <h3 class="tl-title">Secondary School — O/L</h3>
+            <p class="tl-place"><i class="fa-solid fa-location-dot"></i> Kottawa Dharmapala Maha Vidyalaya</p>
+            <p class="tl-desc">Completed Ordinary Level examinations with excellent results across all subjects.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Certificates & Courses -->
+    <section class="section-block">
+      <h2 class="section-heading">Certificates & Courses</h2>
+      <div class="cert-grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <div class="cert-info">
+            <h4>Diploma Level 3 in Information Technology</h4>
+            <p>Esoft Metro Campus</p>
+          </div>
+          <span class="cert-badge">Completed</span>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon"><i class="fa-solid fa-language"></i></div>
+          <div class="cert-info">
+            <h4>English Language Course</h4>
+            <p>British Council</p>
+          </div>
+          <span class="cert-badge">Completed</span>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <div class="cert-info">
+            <h4>Cisco Certified Network Associate (CCNA)</h4>
+            <p>Cisco Networking Academy</p>
+          </div>
+          <span class="cert-badge">Completed</span>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+          <div class="cert-info">
+            <h4>Association of Accounting Technicians(AAT) Level 1</h4>
+            <p>AAT Sri Lanka</p>
+          </div>
+          <span class="cert-badge">Completed</span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="animations.js" defer></script>
+  <script src="shared.js" defer></script>
+  
+</body>
+</html>

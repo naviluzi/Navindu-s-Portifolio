@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Drive</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+
+  <style>
+    .drive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .upload-zone {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: 2rem;
+      padding: 4rem 3rem;
+      text-align: center;
+      transition: border-color .3s, background .3s;
+      position: relative;
+      cursor: none;
+    }
+    .upload-zone:hover {
+      border-color: var(--accent);
+      background: rgba(192,57,43,.04);
+    }
+    .upload-zone-icon {
+      width: 8rem; height: 8rem;
+      border-radius: 50%;
+      background: var(--glow-soft);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.2rem; color: var(--accent);
+      margin: 0 auto 2rem;
+      transition: transform .3s;
+    }
+    .upload-zone:hover .upload-zone-icon { transform: scale(1.1); }
+    .upload-zone h3 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: .8rem; }
+    .upload-zone p  { font-size: 1.35rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
+
+    .drop-area {
+      border: 2px dashed var(--dim);
+      border-radius: 1.2rem;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      transition: border-color .3s, background .3s;
+      cursor: none;
+    }
+    .drop-area.drag-active { border-color: var(--accent); background: rgba(192,57,43,.05); }
+    .drop-icon { font-size: 3rem; color: var(--accent); margin-bottom: 1rem; }
+    .drop-text  { font-size: 1.4rem; color: var(--muted); margin-bottom: 1.4rem; }
+
+    .upload-btn {
+      display: inline-flex; align-items: center; gap: 1rem;
+      padding: 1.3rem 3rem;
+      background: var(--accent); color: #fff;
+      border-radius: .8rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 700; letter-spacing: .04em;
+      cursor: none; border: none;
+      transition: background .3s, transform .3s, box-shadow .3s;
+    }
+    .upload-btn:hover { background: var(--accent-2); transform: translateY(-2px); box-shadow: 0 8px 28px var(--glow); }
+    .upload-btn:disabled { opacity: .5; transform: none; }
+
+    .file-list { display: none; flex-direction: column; gap: .8rem; margin: 1.5rem 0; text-align: left; }
+    .file-list.visible { display: flex; }
+    .file-item {
+      display: flex; align-items: center; gap: 1.2rem;
+      padding: .9rem 1.4rem; background: var(--dim); border-radius: .8rem; font-size: 1.3rem;
+    }
+    .file-item i { color: var(--accent); font-size: 1.5rem; flex-shrink: 0; }
+    .file-item-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-item-size { color: var(--muted); font-size: 1.1rem; flex-shrink: 0; }
+    .file-item-remove { color: var(--muted); font-size: 1.2rem; cursor: none; padding: .2rem .5rem; border-radius: .4rem; transition: color .2s, background .2s; }
+    .file-item-remove:hover { color: var(--accent); background: rgba(192,57,43,.1); }
+
+    .send-btn {
+      display: none; width: 100%;
+      justify-content: center; align-items: center; gap: 1rem;
+      padding: 1.3rem 3rem;
+      background: var(--accent); color: #fff;
+      border-radius: .8rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 700; letter-spacing: .04em;
+      cursor: none; border: none; margin-top: .5rem;
+      transition: background .3s, transform .3s, box-shadow .3s;
+    }
+    .send-btn:hover { background: var(--accent-2); transform: translateY(-2px); box-shadow: 0 8px 28px var(--glow); }
+    .send-btn:disabled { opacity: .5; transform: none; }
+    .send-btn.visible { display: flex; }
+
+    .upload-progress { display: none; margin: 1.5rem 0; }
+    .upload-progress.visible { display: block; }
+    .progress-info { display: flex; justify-content: space-between; font-size: 1.2rem; color: var(--muted); margin-bottom: .6rem; }
+    .progress-bar-track { width: 100%; height: 6px; background: var(--dim); border-radius: 3px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--accent-2)); border-radius: 3px; width: 0%; transition: width .3s ease; }
+
+    .upload-success {
+      display: none; flex-direction: column; align-items: center;
+      gap: 1rem; padding: 2rem;
+      background: rgba(76,175,130,.07); border: 1px solid rgba(76,175,130,.2);
+      border-radius: 1.2rem; margin-top: 1.5rem; text-align: center;
+    }
+    .upload-success.visible { display: flex; }
+    .upload-success i { font-size: 3rem; color: #4caf82; }
+    .upload-success h4 { font-family: 'Syne', sans-serif; font-size: 1.7rem; font-weight: 700; color: #4caf82; }
+    .upload-success p { font-size: 1.3rem; color: var(--muted); }
+
+    .upload-error {
+      display: none; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.6rem;
+      background: rgba(192,57,43,.08); border: 1px solid var(--border);
+      border-radius: .8rem; margin-top: 1rem;
+      font-size: 1.3rem; color: var(--accent-2);
+    }
+    .upload-error.visible { display: flex; }
+
+    .format-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 2rem; }
+    .format-tag { font-size: 1.1rem; padding: .3rem 1rem; border-radius: 2rem; background: var(--dim); color: var(--muted); border: 1px solid transparent; }
+
+    .drive-info { display: flex; flex-direction: column; gap: 1.8rem; }
+    .drive-info-card { background: var(--surface); border: 1px solid var(--dim); border-radius: 1.4rem; padding: 2.2rem 2.5rem; display: flex; align-items: flex-start; gap: 1.8rem; transition: border-color .3s, transform .3s; }
+    .drive-info-card:hover { border-color: var(--border); transform: translateX(4px); }
+    .dic-icon { width: 4.8rem; height: 4.8rem; border-radius: 1rem; background: var(--glow-soft); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent); flex-shrink: 0; }
+    .dic-content h4 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: .4rem; }
+    .dic-content p  { font-size: 1.3rem; color: var(--muted); line-height: 1.7; }
+
+    @media (max-width: 900px) { .drive-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="react-root"></div>
+
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="mydrive.html" class="active">My Drive</a>
+      <a href="interests.html">My Passion</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <div class="page-hero">
+      <p class="page-eyebrow">File sharing</p>
+      <h1 class="page-title">My <span class="red">Drive</span></h1>
+      <p class="page-subtitle">Upload photos, videos or any files directly to my storage. Fast, easy, and secure.</p>
+    </div>
+
+    <section class="section-block">
+      <div class="drive-grid">
+
+        <div class="reveal">
+          <div class="upload-zone">
+            <div class="upload-zone-icon"><i class="fa-brands fa-google-drive"></i></div>
+            <h3>Upload to My Drive</h3>
+            <p>Select or drag & drop photos, videos or documents. Files are saved instantly to my storage.</p>
+
+            <input type="file" id="file-input" multiple accept="*/*" style="display:none;" />
+
+            <div class="drop-area" id="drop-area">
+              <div class="drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              <p class="drop-text">Drag & drop files here</p>
+              <button class="upload-btn" id="browse-btn" type="button">
+                <i class="fa-solid fa-folder-open"></i> Choose Files
+              </button>
+            </div>
+
+            <div class="file-list" id="file-list"></div>
+
+            <button class="send-btn" id="send-btn" type="button">
+              <i class="fa-solid fa-paper-plane"></i> Upload Now
+            </button>
+
+            <div class="upload-progress" id="upload-progress">
+              <div class="progress-info">
+                <span id="progress-label">Uploading…</span>
+                <span id="progress-pct">0%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+              </div>
+            </div>
+
+            <div class="upload-success" id="upload-success">
+              <i class="fa-solid fa-circle-check"></i>
+              <h4>Upload Successful!</h4>
+              <p>Your files have been saved to my storage.</p>
+            </div>
+
+            <div class="upload-error" id="upload-error">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span id="error-text">Something went wrong. Please try again.</span>
+            </div>
+
+            <div class="format-tags">
+              <span class="format-tag"><i class="fa-solid fa-image"></i> JPG / PNG</span>
+              <span class="format-tag"><i class="fa-solid fa-image"></i> WEBP / GIF</span>
+              <span class="format-tag"><i class="fa-solid fa-video"></i> MP4 / MOV</span>
+              <span class="format-tag"><i class="fa-solid fa-file"></i> PDF / DOC</span>
+              <span class="format-tag"><i class="fa-solid fa-file-zipper"></i> ZIP / RAR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="drive-info">
+          <div class="drive-info-card reveal">
+            <div class="dic-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="dic-content"><h4>Instant Upload</h4><p>Files go straight to my storage the moment you upload. No waiting, no emails needed.</p></div>
+          </div>
+          <div class="drive-info-card reveal">
+            <div class="dic-icon"><i class="fa-solid fa-lock"></i></div>
+            <div class="dic-content"><h4>Secure & Private</h4><p>Your files are transferred securely via Cloudinary. Only I can access what you upload.</p></div>
+          </div>
+          <div class="drive-info-card reveal">
+            <div class="dic-icon"><i class="fa-solid fa-photo-film"></i></div>
+            <div class="dic-content"><h4>Any File Type</h4><p>Images, videos, documents, archives — upload anything. Multiple files supported at once.</p></div>
+          </div>
+          <div class="drive-info-card reveal">
+            <div class="dic-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="dic-content"><h4>Have questions?</h4><p>For project inquiries alongside your files, head to the <a href="contact.html" style="color:var(--accent)">Contact page</a> and send me a message too.</p></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="animations.js" defer></script>
+  <script src="shared.js" defer></script>
+
+  <script>
+    const CLOUD_NAME    = 'dulv29wyg';
+    const UPLOAD_PRESET = 'navindu_portfolio'; // we will create this below
+
+    let selectedFiles = [];
+
+    const fileInput     = document.getElementById('file-input');
+    const browseBtn     = document.getElementById('browse-btn');
+    const sendBtn       = document.getElementById('send-btn');
+    const dropArea      = document.getElementById('drop-area');
+    const fileList      = document.getElementById('file-list');
+    const progressWrap  = document.getElementById('upload-progress');
+    const progressFill  = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const progressPct   = document.getElementById('progress-pct');
+    const successBox    = document.getElementById('upload-success');
+    const errorBox      = document.getElementById('upload-error');
+    const errorText     = document.getElementById('error-text');
+
+    browseBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => { addFiles(Array.from(fileInput.files)); fileInput.value = ''; });
+
+    dropArea.addEventListener('dragover',  e => { e.preventDefault(); dropArea.classList.add('drag-active'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('drag-active'));
+    dropArea.addEventListener('drop', e => { e.preventDefault(); dropArea.classList.remove('drag-active'); addFiles(Array.from(e.dataTransfer.files)); });
+
+    function fmt(b) { return b < 1048576 ? (b/1024).toFixed(1)+' KB' : (b/1048576).toFixed(1)+' MB'; }
+    function icon(t) {
+      if (t.startsWith('image/')) return 'fa-image';
+      if (t.startsWith('video/')) return 'fa-video';
+      if (t === 'application/pdf') return 'fa-file-pdf';
+      if (t.includes('zip')||t.includes('rar')) return 'fa-file-zipper';
+      return 'fa-file';
+    }
+
+    function addFiles(files) {
+      files.forEach(f => { if (!selectedFiles.find(s => s.name===f.name && s.size===f.size)) selectedFiles.push(f); });
+      render();
+    }
+
+    function render() {
+      if (!selectedFiles.length) {
+        fileList.classList.remove('visible');
+        sendBtn.classList.remove('visible');
+        return;
+      }
+      fileList.classList.add('visible');
+      sendBtn.classList.add('visible');
+      fileList.innerHTML = selectedFiles.map((f,i) => `
+        <div class="file-item">
+          <i class="fa-solid ${icon(f.type)}"></i>
+          <span class="file-item-name">${f.name}</span>
+          <span class="file-item-size">${fmt(f.size)}</span>
+          <span class="file-item-remove" onclick="window._rm(${i})"><i class="fa-solid fa-xmark"></i></span>
+        </div>`).join('');
+    }
+
+    window._rm = i => { selectedFiles.splice(i,1); render(); };
+
+    function reset() {
+      selectedFiles = [];
+      fileList.classList.remove('visible');
+      sendBtn.classList.remove('visible');
+      progressWrap.classList.remove('visible');
+      successBox.classList.remove('visible');
+      errorBox.classList.remove('visible');
+      progressFill.style.width = '0%';
+      progressFill.style.background = '';
+      progressPct.textContent = '0%';
+    }
+
+    function uploadFile(file, index, total) {
+      return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+        formData.append('folder', 'navindu_drive');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`);
+
+        xhr.upload.onprogress = e => {
+          if (e.lengthComputable) {
+            const filePct = e.loaded / e.total;
+            const totalPct = ((index + filePct) / total * 100).toFixed(0);
+            progressFill.style.width = totalPct + '%';
+            progressPct.textContent  = totalPct + '%';
+            progressLabel.textContent = `Uploading file ${index + 1} of ${total}…`;
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status === 200) resolve(JSON.parse(xhr.responseText));
+          else reject(new Error('Upload failed'));
+        };
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.send(formData);
+      });
+    }
+
+    sendBtn.addEventListener('click', async () => {
+      if (!selectedFiles.length) return;
+
+      errorBox.classList.remove('visible');
+      successBox.classList.remove('visible');
+      progressWrap.classList.add('visible');
+      sendBtn.disabled = browseBtn.disabled = true;
+
+      const total = selectedFiles.length;
+      let failed = false;
+
+      for (let i = 0; i < total; i++) {
+        try {
+          await uploadFile(selectedFiles[i], i, total);
+        } catch(e) {
+          errorText.textContent = 'Upload failed: ' + e.message;
+          errorBox.classList.add('visible');
+          failed = true;
+          break;
+        }
+      }
+
+      sendBtn.disabled = browseBtn.disabled = false;
+
+      if (!failed) {
+        progressWrap.classList.remove('visible');
+        successBox.classList.add('visible');
+        setTimeout(() => reset(), 2000);
+      }
+    });
+  </script>
+
+</body>
+</html>

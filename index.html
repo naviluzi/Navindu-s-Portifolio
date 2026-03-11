@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- React canvas layer (particles) -->
+  <div id="react-root"></div>
+
+  <!-- ── Header ── -->
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+
+    <nav id="nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="mydrive.html">My Drive</a>
+      <a href="interests.html">My Passion</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="home" id="home">
+
+    <!-- Photo — left side (matching screenshot) -->
+    <div class="home-img">
+      <div class="img-wrapper">
+        <div class="img-ring"></div>
+        <div class="img-gap"></div>
+        <!--
+          REPLACE  src="your-photo.jpg"  with your own image file.
+          Keep object-position: top center in CSS so your face shows.
+        -->
+        <img src="Mine nxt - Edited.png" alt="Navindu" />
+      </div>
+    </div>
+
+    <!-- Content — right side -->
+    <div class="home-content">
+      <h1>Hi, I am <br><span class="name">Navindu Binuwara Katugampala</span></h1>
+
+
+      <p class="bio">
+        A passionate ICT student and gamer with a strong interest in computing concepts and digital technologies. Always learning, always creating.
+      </p>
+
+      <div class="social-icons">
+        <a href="#" aria-label="LinkedIn">   <i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://github.com/naviluzi" aria-label="GitHub">     <i class="fa-brands fa-github"></i></a>
+        <a href="https://www.threads.com/@_navindu_katugampala_" aria-label="Twitter/X">  <i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/_navindu_katugampala_" aria-label="Instagram">  <i class="fa-brands fa-instagram"></i></a>
+      </div>
+
+      <div class="info-chips">
+        <span class="chip"><i class="fa-solid fa-graduation-cap"></i> Cybersecurity Student</span>
+        <a href="https://maps.app.goo.gl/h2LBpamRbzJYnCK7A" target="_blank" class="chip"> <i class="fa-solid fa-location-dot"></i> My Location</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- React animations -->
+  <script src="animations.js" defer></script>
+
+  <script>
+    /* ── Cursor ── */
+    const cur  = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx=0, my=0, rx=0, ry=0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.left = mx+'px'; cur.style.top = my+'px';
+    });
+    (function loop() {
+      rx += (mx-rx)*.12; ry += (my-ry)*.12;
+      ring.style.left = rx+'px'; ring.style.top = ry+'px';
+      requestAnimationFrame(loop);
+    })();
+
+    document.querySelectorAll('a,button,.logo,.hamburger,.chip').forEach(el=>{
+      el.addEventListener('mouseenter', ()=> document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', ()=> document.body.classList.remove('hovering'));
+    });
+
+    /* ── Mobile nav ── */
+    const ham = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    ham.addEventListener('click', ()=>{
+      ham.classList.toggle('open');
+      nav.classList.toggle('open');
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=>{
+      ham.classList.remove('open'); nav.classList.remove('open');
+    }));
+
+    /* ── Header scroll ── */
+    window.addEventListener('scroll', ()=>{
+      const h = document.getElementById('header');
+      h.style.background = window.scrollY > 50
+        ? 'rgba(8,8,8,.97)'
+        : 'linear-gradient(to bottom, rgba(8,8,8,.97) 60%, transparent)';
+    });
+  </script>
+
+</body>
+</html>

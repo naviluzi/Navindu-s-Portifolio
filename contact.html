@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="react-root"></div>
+
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="mydrive.html ">My Drive</a>
+      <a href="interests.html">My Passion</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+
+    <div class="page-hero">
+      <p class="page-eyebrow">Get in touch</p>
+      <h1 class="page-title">Contact <span class="red">Me</span></h1>
+      <p class="page-subtitle">Have a project, want tutoring, or just want to say hi? Drop me a message.</p>
+    </div>
+
+    <section class="section-block contact-layout">
+
+      <!-- Left: Details -->
+      <div class="contact-info reveal">
+
+        <div class="contact-detail-card" onclick="window.location='mailto:navindukatugampala@gmail.com'">
+  <div class="cd-icon"><i class="fa-solid fa-envelope"></i></div>
+  <div>
+    <p class="cd-label">Email</p>
+    <a href="mailto:navindukatugampala@gmail.com" class="cd-value">navindukatugampala@gmail.com</a>
+  </div>
+</div>
+
+<div class="contact-detail-card" onclick="window.open('https://github.com/naviluzi','_blank')">
+  <div class="cd-icon"><i class="fa-brands fa-github"></i></div>
+  <div>
+    <p class="cd-label">GitHub</p>
+    <a href="https://github.com/naviluzi" target="_blank" class="cd-value">github.com/naviluzi</a>
+  </div>
+</div>
+
+<div class="contact-detail-card" onclick="window.open('https://t.me/navindu_katugampala','_blank')">
+  <div class="cd-icon"><i class="fa-brands fa-telegram"></i></div>
+  <div>
+    <p class="cd-label">Telegram</p>
+    <a href="https://t.me/navindu_katugampala" target="_blank" class="cd-value">@navindu_katugampala</a>
+  </div>
+</div>
+
+<div class="contact-detail-card" onclick="window.open('https://maps.app.goo.gl/h2LBpamRbzJYnCK7A','_blank')">
+  <div class="cd-icon"><i class="fa-brands fa-whatsapp"></i></div>
+  <div>
+    <p class="cd-label">Whatsapp</p>
+    <a href="https://wa.me/qr/HXZZFVCLDIS5A1" target="_blank" class="cd-value">+94 70 343 9314</a>
+  </div>
+</div>
+
+        <!-- Socials -->
+        <div class="contact-socials-block">
+          <p class="cd-label">Find me on</p>
+          <div class="social-icons">
+            <a href="https://github.com/naviluzi" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.threads.com/@_navindu_katugampala_" target="_blank" aria-label="Threads"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/_navindu_katugampala_" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://t.me/navindu_katugampala" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          </div>
+        </div>
+
+        
+
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form-wrap reveal">
+        <form class="contact-form" id="contact-form">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">Your Name</label>
+              <input type="text" id="fname" placeholder="John Doe" required />
+            </div>
+            <div class="form-group">
+              <label for="femail">Email Address</label>
+              <input type="email" id="femail" placeholder="john@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fsubject">Subject</label>
+            <input type="text" id="fsubject" placeholder="Freelance project / Tutoring / Just saying hi" />
+          </div>
+
+          <div class="form-group">
+            <label for="fmessage">Message</label>
+            <textarea id="fmessage" rows="6" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            <span>Send Message</span>
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+
+          <p class="form-note" id="form-note"></p>
+
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="animations.js" defer></script>
+  <script src="shared.js" defer></script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init("tGnAgYxwF0KK6euaZ");
+
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const note = document.getElementById('form-note');
+
+      emailjs.send('service_ffff0m6', 'template_mgm7xsn', {
+        from_name:  document.getElementById('fname').value,
+        from_email: document.getElementById('femail').value,
+        subject:    document.getElementById('fsubject').value || '(no subject)',
+        message:    document.getElementById('fmessage').value,
+      })
+      .then(() => {
+        note.textContent = "✓ Message sent! I'll get back to you soon.";
+        note.style.color = '#4caf82';
+        this.reset();
+        setTimeout(() => note.textContent = '', 5000);
+      })
+      .catch(() => {
+        note.textContent = '✗ Something went wrong. Please email me directly.';
+        note.style.color = '#e85d4a';
+      });
+    });
+  </script>
+
+</body>
+</html>

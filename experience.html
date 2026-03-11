@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navindu's Experience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link rel="icon" type="image/x-icon" href="title.ico" />
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="react-root"></div>
+
+  <header id="header">
+    <a href="index.html" class="logo">Navindu Katugampala</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html" class="active">Experience</a>
+      <a href="mydrive.html">My Drive</a>
+      <a href="interests.html">My Passion</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+
+    <div class="page-hero">
+      <p class="page-eyebrow">What I've done</p>
+      <h1 class="page-title">My <span class="red">Experience</span></h1>
+      <p class="page-subtitle">Freelance work and teaching experience I've built as a student.</p>
+    </div>
+
+    <!-- Stats -->
+    <section class="section-block">
+      <div class="freelance-stats">
+        <div class="fl-stat reveal">
+          <span class="fl-num">15<span class="red">+</span></span>
+          <span class="fl-label">Fiverr Orders</span>
+        </div>
+        <div class="fl-stat reveal">
+          <span class="fl-num">10<span class="red">+</span></span>
+          <span class="fl-label">Happy Clients</span>
+        </div>
+        <div class="fl-stat reveal">
+          <span class="fl-num">20<span class="red">+</span></span>
+          <span class="fl-label">Students Taught</span>
+        </div>
+        <div class="fl-stat reveal">
+          <span class="fl-num">100<span class="red">%</span></span>
+          <span class="fl-label">Satisfaction</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fiverr Freelance -->
+    <section class="section-block">
+      <h2 class="section-heading">Freelance on Fiverr</h2>
+      <div class="project-grid">
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div class="project-icon"><i class="fa-solid fa-globe"></i></div>
+            <span class="project-status done">Completed</span>
+          </div>
+          <h3>Website Design & Development</h3>
+          <p class="project-client"><i class="fa-brands fa-fiverr"></i> Fiverr Client</p>
+          <p>Designed and developed fully responsive websites for small businesses and individuals using HTML, CSS, and JavaScript.</p>
+          <div class="project-tags">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div class="project-icon"><i class="fa-solid fa-film"></i></div>
+            <span class="project-status done">Completed</span>
+          </div>
+          <h3>Video Editing</h3>
+          <p class="project-client"><i class="fa-brands fa-fiverr"></i> Fiverr Client</p>
+          <p>Edited promotional and YouTube videos for clients using Adobe Premiere Pro with colour grading and audio mixing.</p>
+          <div class="project-tags">
+            <span>Premiere Pro</span><span>Audition</span><span>Photoshop</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <span class="project-status done">Completed</span>
+          </div>
+          <h3>Cybersecurity Consultation</h3>
+          <p class="project-client"><i class="fa-brands fa-fiverr"></i> Fiverr Client</p>
+          <p>Provided basic security audits, vulnerability assessments, and security advice for small projects and websites.</p>
+          <div class="project-tags">
+            <span>Security Audit</span><span>Python</span><span>Networking</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div class="project-icon"><i class="fa-solid fa-database"></i></div>
+            <span class="project-status done">Completed</span>
+          </div>
+          <h3>Database Design</h3>
+          <p class="project-client"><i class="fa-brands fa-fiverr"></i> Fiverr Client</p>
+          <p>Designed and implemented relational databases for clients' applications, including schema design and query optimisation.</p>
+          <div class="project-tags">
+            <span>SQL</span><span>PHP</span><span>MySQL</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tutoring -->
+    <section class="section-block">
+      <h2 class="section-heading">ICT Tutoring</h2>
+      <div class="tutor-card reveal">
+        <div class="tutor-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <div class="tutor-content">
+          <h3>ICT Tutor — Secondary & Higher Secondary</h3>
+          <p>
+            Tutoring O/L and A/L students in ICT, covering both theory and practical components.
+            I help students understand computer fundamentals, networking, web technologies,
+            programming basics, and exam preparation — making complex topics easy to grasp
+            through hands-on examples and clear explanations.
+          </p>
+          <div class="tutor-subjects">
+            <span>O/L ICT</span>
+            <span>A/L ICT</span>
+            <span>Computer Fundamentals</span>
+            <span>Networking Basics</span>
+            <span>Web Technologies</span>
+            <span>Programming Basics</span>
+            <span>Exam Preparation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="animations.js" defer></script>
+  <script src="shared.js" defer></script>
+  
+</body>
+</html>
